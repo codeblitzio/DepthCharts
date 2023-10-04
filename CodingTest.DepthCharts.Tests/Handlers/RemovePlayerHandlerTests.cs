@@ -28,7 +28,7 @@ public class RemovePlayerHandlerTests
 		_logger = new Mock<ILogger<RemovePlayerHandler>>().Object;
 
         // create a concrete options
-        _options = Microsoft.Extensions.Options.Options.Create(new AppOptions { Sport = "MLB" });
+        _options = Microsoft.Extensions.Options.Options.Create(new AppOptions { Sport = "NFL" });
 
         // the main repo is a concrete mock, let's reuse
         _repository = new Repositories.MockRepository(_options, new Mock<ILogger<Repositories.MockRepository>>().Object);
@@ -45,16 +45,16 @@ public class RemovePlayerHandlerTests
     public async Task Remove_Player()
     {
         //arrange
-        var position = await _repository.GetPositionAsync("SP", default);
+        var position = await _repository.GetPositionAsync("QB", default);
         var players = position.Players.ToList();
 
-        players.Add(new Entities.Player { PlayerId = 1, Name = "Bob", PositionId = "SP" });
-        players.Add(new Entities.Player { PlayerId = 2, Name = "Alice", PositionId = "SP" });
-        players.Add(new Entities.Player { PlayerId = 3, Name = "Charlie", PositionId = "SP" });
+        players.Add(new Entities.Player { PlayerId = 1, Name = "Bob", PositionId = "QB" });
+        players.Add(new Entities.Player { PlayerId = 2, Name = "Alice", PositionId = "QB" });
+        players.Add(new Entities.Player { PlayerId = 3, Name = "Charlie", PositionId = "QB" });
 
         position.Players = players;
 
-        var command = new RemovePlayerCommand { PlayerId = 2, PositionId = "SP" };
+        var command = new RemovePlayerCommand { PlayerId = 2, PositionId = "QB" };
 
         var sut = new RemovePlayerHandler(_repository, _mapper, _validator, _logger);
 
@@ -62,16 +62,16 @@ public class RemovePlayerHandlerTests
         await sut.Handle(command, default);
 
         // assert
-        Assert.True(position.Players.Count() == 2);
-        Assert.True(position.Players.ElementAt(0).PlayerId == 1);
-        Assert.True(position.Players.ElementAt(1).PlayerId == 3);
+        Assert.Equal(2, position.Players.Count());
+        Assert.Equal(1, position.Players.ElementAt(0).PlayerId);
+        Assert.Equal(3, position.Players.ElementAt(1).PlayerId);
     }
 
     [Fact]
     public async Task Add_Player_Throws_BadRequestException()
     {
         //arrange 
-        var command = new RemovePlayerCommand { PlayerId = 1, PositionId = "QB" };
+        var command = new RemovePlayerCommand { PlayerId = 1, PositionId = "SP" };
 
         var sut = new RemovePlayerHandler(_repository, _mapper, _validator, _logger);
 

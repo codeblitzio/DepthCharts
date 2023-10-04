@@ -28,7 +28,7 @@ public class GetTrailingPlayersHandlerTests
 		_logger = new Mock<ILogger<GetTrailingPlayersHandler>>().Object;
 
         // create a concrete options
-        _options = Microsoft.Extensions.Options.Options.Create(new AppOptions { Sport = "MLB" });
+        _options = Microsoft.Extensions.Options.Options.Create(new AppOptions { Sport = "NFL" });
 
         // the main repo is a concrete mock, let's reuse
         _repository = new Repositories.MockRepository(_options, new Mock<ILogger<Repositories.MockRepository>>().Object);
@@ -45,16 +45,16 @@ public class GetTrailingPlayersHandlerTests
     public async Task Get_Trailing_Players()
     {
         //arrange
-        var position = await _repository.GetPositionAsync("SP", default);
+        var position = await _repository.GetPositionAsync("QB", default);
         var players = position.Players.ToList();
 
-        players.Add(new Entities.Player { PlayerId = 1, Name = "Bob", PositionId = "SP" });
-        players.Add(new Entities.Player { PlayerId = 2, Name = "Alice", PositionId = "SP" });
-        players.Add(new Entities.Player { PlayerId = 3, Name = "Charlie", PositionId = "SP" });
+        players.Add(new Entities.Player { PlayerId = 1, Name = "Bob", PositionId = "QB" });
+        players.Add(new Entities.Player { PlayerId = 2, Name = "Alice", PositionId = "QB" });
+        players.Add(new Entities.Player { PlayerId = 3, Name = "Charlie", PositionId = "QB" });
 
         position.Players = players;
 
-        var query = new GetTrailingPlayersQuery { PlayerId = 1, PositionId = "SP" };
+        var query = new GetTrailingPlayersQuery { PlayerId = 1, PositionId = "QB" };
 
         var sut = new GetTrailingPlayersHandler(_repository, _mapper, _validator, _logger);
 
@@ -62,16 +62,16 @@ public class GetTrailingPlayersHandlerTests
         var result = await sut.Handle(query, default);
 
         // assert
-        Assert.True(result.Players.Count() == 2);
-        Assert.True(result.Players.ElementAt(0) == 2);
-        Assert.True(result.Players.ElementAt(1) == 3);
+        Assert.Equal(2, result.Players.Count());
+        Assert.Equal(2, result.Players.ElementAt(0));
+        Assert.Equal(3, result.Players.ElementAt(1));
     }
 
     [Fact]
     public async Task Get_Trailing_Players_Throws_BadRequestException()
     {
         //arrange
-        var query = new GetTrailingPlayersQuery { PlayerId = 1, PositionId = "QB" };
+        var query = new GetTrailingPlayersQuery { PlayerId = 1, PositionId = "SP" };
 
         var sut = new GetTrailingPlayersHandler(_repository, _mapper, _validator, _logger);
 

@@ -32,7 +32,7 @@ public class AddPlayerHandlerTests
 		_logger = new Mock<ILogger<AddPlayerHandler>>().Object;
 
         // create a concrete options
-        _options = Microsoft.Extensions.Options.Options.Create(new AppOptions { Sport = "MLB" });
+        _options = Microsoft.Extensions.Options.Options.Create(new AppOptions { Sport = "NFL" });
 
         // the main repo is a concrete mock, let's reuse
         _repository = new Repositories.MockRepository(_options, new Mock<ILogger<Repositories.MockRepository>>().Object);
@@ -49,7 +49,7 @@ public class AddPlayerHandlerTests
     public async Task Add_Simgle_Player()
     {
         //arrange 
-        var command = new AddPlayerCommand{ Player = _bob, PositionId = "SP", Depth = 1 };
+        var command = new AddPlayerCommand{ Player = _bob, PositionId = "QB", Depth = 1 };
 
         var sut = new AddPlayerHandler(_repository, _mapper, _validator, _logger);
 
@@ -57,10 +57,10 @@ public class AddPlayerHandlerTests
         await sut.Handle(command, default);
 
         // assert
-        var position = await _repository.GetPositionAsync("SP", default);
+        var position = await _repository.GetPositionAsync("QB", default);
 
-        Assert.True(position.Players.Count() == 1);
-        Assert.True(position.Players.ElementAt(0).PlayerId == 1);
+        Assert.Single(position.Players);
+        Assert.Equal(1, position.Players.ElementAt(0).PlayerId);
     }
 
 
@@ -68,8 +68,8 @@ public class AddPlayerHandlerTests
     public async Task Add_Two_Players_With_Same_Depth()
     {
         //arrange 
-        var command1 = new AddPlayerCommand { Player = _bob, PositionId = "SP", Depth = 0 };
-        var command2 = new AddPlayerCommand { Player = _alice, PositionId = "SP", Depth = 0 };
+        var command1 = new AddPlayerCommand { Player = _bob, PositionId = "QB", Depth = 0 };
+        var command2 = new AddPlayerCommand { Player = _alice, PositionId = "QB", Depth = 0 };
 
         var sut = new AddPlayerHandler(_repository, _mapper, _validator, _logger);
 
@@ -78,19 +78,19 @@ public class AddPlayerHandlerTests
         await sut.Handle(command2, default);
 
         // assert
-        var position = await _repository.GetPositionAsync("SP", default);
+        var position = await _repository.GetPositionAsync("QB", default);
 
-        Assert.True(position.Players.Count() == 2);
-        Assert.True(position.Players.ElementAt(0).PlayerId == 2);
-        Assert.True(position.Players.ElementAt(1).PlayerId == 1);
+        Assert.Equal(2, position.Players.Count());
+        Assert.Equal(2, position.Players.ElementAt(0).PlayerId);
+        Assert.Equal(1, position.Players.ElementAt(1).PlayerId);
     }
 
     [Fact]
     public async Task Add_Two_Players_With_Different_Depths()
     {
         //arrange 
-        var command1 = new AddPlayerCommand { Player = _bob, PositionId = "SP", Depth = 0 };
-        var command2 = new AddPlayerCommand { Player = _alice, PositionId = "SP", Depth = 1 };
+        var command1 = new AddPlayerCommand { Player = _bob, PositionId = "QB", Depth = 0 };
+        var command2 = new AddPlayerCommand { Player = _alice, PositionId = "QB", Depth = 1 };
 
         var sut = new AddPlayerHandler(_repository, _mapper, _validator, _logger);
 
@@ -99,19 +99,19 @@ public class AddPlayerHandlerTests
         await sut.Handle(command2, default);
 
         // assert
-        var position = await _repository.GetPositionAsync("SP", default);
+        var position = await _repository.GetPositionAsync("QB", default);
 
-        Assert.True(position.Players.Count() == 2);
-        Assert.True(position.Players.ElementAt(0).PlayerId == 1);
-        Assert.True(position.Players.ElementAt(1).PlayerId == 2);
+        Assert.Equal(2, position.Players.Count());
+        Assert.Equal(1, position.Players.ElementAt(0).PlayerId);
+        Assert.Equal(2, position.Players.ElementAt(1).PlayerId);
     }
 
     [Fact]
     public async Task Add_Two_Players_With_No_Depths()
     {
         //arrange 
-        var command1 = new AddPlayerCommand { Player = _bob, PositionId = "SP" };
-        var command2 = new AddPlayerCommand { Player = _alice, PositionId = "SP" };
+        var command1 = new AddPlayerCommand { Player = _bob, PositionId = "QB" };
+        var command2 = new AddPlayerCommand { Player = _alice, PositionId = "QB" };
 
         var sut = new AddPlayerHandler(_repository, _mapper, _validator, _logger);
 
@@ -120,18 +120,18 @@ public class AddPlayerHandlerTests
         await sut.Handle(command2, default);
 
         // assert
-        var position = await _repository.GetPositionAsync("SP", default);
+        var position = await _repository.GetPositionAsync("QB", default);
 
-        Assert.True(position.Players.Count() == 2);
-        Assert.True(position.Players.ElementAt(0).PlayerId == 1);
-        Assert.True(position.Players.ElementAt(1).PlayerId == 2);
+        Assert.Equal(2, position.Players.Count());
+        Assert.Equal(1, position.Players.ElementAt(0).PlayerId);
+        Assert.Equal(2, position.Players.ElementAt(1).PlayerId);
     }
 
     [Fact]
     public async Task Add_Player_With_Too_High_Depth()
     {
         //arrange 
-        var command = new AddPlayerCommand { Player = _bob, PositionId = "SP", Depth = 99 };
+        var command = new AddPlayerCommand { Player = _bob, PositionId = "QB", Depth = 99 };
 
         var sut = new AddPlayerHandler(_repository, _mapper, _validator, _logger);
 
@@ -139,17 +139,17 @@ public class AddPlayerHandlerTests
         await sut.Handle(command, default);
 
         // assert
-        var position = await _repository.GetPositionAsync("SP", default);
+        var position = await _repository.GetPositionAsync("QB", default);
 
-        Assert.True(position.Players.Count() == 1);
-        Assert.True(position.Players.ElementAt(0).PlayerId == 1);
+        Assert.Single(position.Players);
+        Assert.Equal(1, position.Players.ElementAt(0).PlayerId);
     }
 
     [Fact]
     public async Task Add_Player_Throws_BadRequestException()
     {
         //arrange 
-        var command = new AddPlayerCommand { Player = _bob, PositionId = "QB", Depth = 0 };
+        var command = new AddPlayerCommand { Player = _bob, PositionId = "SP", Depth = 0 };
 
         var sut = new AddPlayerHandler(_repository, _mapper, _validator, _logger);
 

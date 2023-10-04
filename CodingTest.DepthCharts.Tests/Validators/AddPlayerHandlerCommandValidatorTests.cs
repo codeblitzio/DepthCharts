@@ -1,4 +1,5 @@
-﻿using CodingTest.DepthCharts.Messages;
+﻿using System.Linq;
+using CodingTest.DepthCharts.Messages;
 using CodingTest.DepthCharts.Options;
 using CodingTest.DepthCharts.Repositories;
 using CodingTest.DepthCharts.Validators;
@@ -7,6 +8,7 @@ using FluentValidation.TestHelper;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
+using Xunit.Sdk;
 
 namespace CodingTest.DepthCharts.Tests.Validators;
 
@@ -21,7 +23,7 @@ public class AddPlayerHandlerCommandValidatorTests
         // create a concrete options
         _options = Microsoft.Extensions.Options.Options.Create(new AppOptions
         {
-            Sport = "MLB"
+            Sport = "NFL"
         });
 
         // the main repo is a concrete mock, let's reuse
@@ -40,9 +42,9 @@ public class AddPlayerHandlerCommandValidatorTests
             {
                 PlayerId = 1,
                 Name = "Bob",
-                PositionId = "SP"
+                PositionId = "QB"
             },
-            PositionId = "SP",
+            PositionId = "QB",
             Depth = 1
         };
 
@@ -63,9 +65,9 @@ public class AddPlayerHandlerCommandValidatorTests
             {
                 PlayerId = 1,
                 Name = "Bob",
-                PositionId = "SP"
+                PositionId = "QB"
             },
-            PositionId = "SP"
+            PositionId = "QB"
         };
 
         // act
@@ -73,6 +75,7 @@ public class AddPlayerHandlerCommandValidatorTests
 
         // assert
         Assert.True(result.IsValid);
+
     }
 
     [Fact]
@@ -90,6 +93,7 @@ public class AddPlayerHandlerCommandValidatorTests
 
         // assert
         Assert.False(result.IsValid);
+        Assert.Contains(result.Errors, e => e.ErrorMessage == "'Player' must not be empty.");
     }
 
     [Fact]
@@ -101,7 +105,7 @@ public class AddPlayerHandlerCommandValidatorTests
             Player = new AddPlayerCommand.PlayerObj
             {
                 Name = "Bob",
-                PositionId = "SP"
+                PositionId = "QB"
             },
             PositionId = "QB",
             Depth = 1
@@ -112,6 +116,7 @@ public class AddPlayerHandlerCommandValidatorTests
 
         // assert
         Assert.False(result.IsValid);
+        Assert.Contains(result.Errors, e => e.ErrorMessage == "'Player Player Id' must be greater than '0'.");
     }
 
     [Fact]
@@ -123,7 +128,7 @@ public class AddPlayerHandlerCommandValidatorTests
             Player = new AddPlayerCommand.PlayerObj
             {
                 PlayerId = 1,
-                PositionId = "SP"
+                PositionId = "QB"
             },
             PositionId = "QB",
             Depth = 1
@@ -134,6 +139,7 @@ public class AddPlayerHandlerCommandValidatorTests
 
         // assert
         Assert.False(result.IsValid);
+        Assert.Contains(result.Errors, e => e.ErrorMessage == "'Player Name' must not be empty.");
     }
 
     [Fact]
@@ -156,6 +162,7 @@ public class AddPlayerHandlerCommandValidatorTests
 
         // assert
         Assert.False(result.IsValid);
+        Assert.Contains(result.Errors, e => e.ErrorMessage == "'Player Position Id' must not be empty.");
     }
 
     [Fact]
@@ -168,9 +175,9 @@ public class AddPlayerHandlerCommandValidatorTests
             {
                 PlayerId = 1,
                 Name = "Bob",
-                PositionId = "SP"
+                PositionId = "QB"
             },
-            PositionId = "QB",
+            PositionId = "SP",
             Depth = 1
         };
 
@@ -179,6 +186,7 @@ public class AddPlayerHandlerCommandValidatorTests
 
         // assert
         Assert.False(result.IsValid);
+        Assert.Contains(result.Errors, e => e.ErrorMessage == "The 'PositionId' is invalid.");
     }
 
     [Fact]
@@ -191,9 +199,8 @@ public class AddPlayerHandlerCommandValidatorTests
             {
                 PlayerId = 1,
                 Name = "Bob",
-                PositionId = "SP"
+                PositionId = "QB"
             },
-            PositionId = "QB",
             Depth = 1
         };
 
@@ -202,6 +209,7 @@ public class AddPlayerHandlerCommandValidatorTests
 
         // assert
         Assert.False(result.IsValid);
+        Assert.Contains(result.Errors, e => e.ErrorMessage == "'Position Id' must not be empty.");
     }
 
     [Fact]
@@ -214,7 +222,7 @@ public class AddPlayerHandlerCommandValidatorTests
             {
                 PlayerId = 1,
                 Name = "Bob",
-                PositionId = "SP"
+                PositionId = "QB"
             },
             PositionId = "QB",
             Depth = -1
@@ -225,5 +233,6 @@ public class AddPlayerHandlerCommandValidatorTests
 
         // assert
         Assert.False(result.IsValid);
+        Assert.Contains(result.Errors, e => e.ErrorMessage == "'Depth' must be greater than '-1'.");
     }
 }

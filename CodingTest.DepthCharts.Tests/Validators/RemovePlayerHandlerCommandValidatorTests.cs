@@ -21,7 +21,7 @@ public class RemovePlayerHandlerCommandValidatorTests
         // create a concrete options
         _options = Microsoft.Extensions.Options.Options.Create(new AppOptions
         {
-            Sport = "MLB"
+            Sport = "NFL"
         });
 
         // the main repo is a concrete mock, let's reuse
@@ -34,7 +34,7 @@ public class RemovePlayerHandlerCommandValidatorTests
     public async Task Command_Is_Valid()
     {
         //arrange 
-        var command = new RemovePlayerCommand { PlayerId = 1, PositionId = "SP" };
+        var command = new RemovePlayerCommand { PlayerId = 1, PositionId = "QB" };
 
         // act
         var result = await _sut.TestValidateAsync(command);
@@ -47,13 +47,14 @@ public class RemovePlayerHandlerCommandValidatorTests
     public async Task Command_Has_No_Player_Id()
     {
         //arrange 
-        var command = new RemovePlayerCommand { PositionId = "SP" };
+        var command = new RemovePlayerCommand { PositionId = "QB" };
 
         // act
         var result = await _sut.TestValidateAsync(command);
 
         // assert
         Assert.False(result.IsValid);
+        Assert.Contains(result.Errors, e => e.ErrorMessage == "'Player Id' must be greater than '0'.");
     }
 
     [Fact]
@@ -67,18 +68,20 @@ public class RemovePlayerHandlerCommandValidatorTests
 
         // assert
         Assert.False(result.IsValid);
+        Assert.Contains(result.Errors, e => e.ErrorMessage == "'Position Id' must not be empty.");
     }
 
     [Fact]
     public async Task Command_Has_Invalid_Position()
     {
         //arrange 
-        var command = new RemovePlayerCommand { PlayerId = 1, PositionId = "QB" };
+        var command = new RemovePlayerCommand { PlayerId = 1, PositionId = "SP" };
 
         // act
         var result = await _sut.TestValidateAsync(command);
 
         // assert
         Assert.False(result.IsValid);
+        Assert.Contains(result.Errors, e => e.ErrorMessage == "The 'PositionId' is invalid.");
     }
 }

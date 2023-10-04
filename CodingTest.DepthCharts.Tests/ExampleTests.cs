@@ -78,21 +78,21 @@ public class ExampleTests
         var trailingPlayersResult = await _getTrailingPlayerHandler.Handle(trailingPlayerQuery, default);
 
         // assert
-        Assert.True(depthChartResult.Positions.Count() == 2);
-        Assert.True(depthChartResult.Positions.ElementAt(0).PositionId == "WR");
-        Assert.True(depthChartResult.Positions.ElementAt(0).Players.ElementAt(0) == 2);
-        Assert.True(depthChartResult.Positions.ElementAt(0).Players.ElementAt(1) == 1);
-        Assert.True(depthChartResult.Positions.ElementAt(0).Players.ElementAt(2) == 3);
-        Assert.True(depthChartResult.Positions.ElementAt(1).PositionId == "KR");
-        Assert.True(depthChartResult.Positions.ElementAt(1).Players.ElementAt(0) == 1);
+        Assert.Equal(2, depthChartResult.Positions.Count());
+        Assert.Equal("WR", depthChartResult.Positions.ElementAt(0).PositionId);
+        Assert.Equal(2, depthChartResult.Positions.ElementAt(0).Players.ElementAt(0));
+        Assert.Equal(1, depthChartResult.Positions.ElementAt(0).Players.ElementAt(1));
+        Assert.Equal(3, depthChartResult.Positions.ElementAt(0).Players.ElementAt(2));
+        Assert.Equal("KR", depthChartResult.Positions.ElementAt(1).PositionId);
+        Assert.Equal(1, depthChartResult.Positions.ElementAt(1).Players.ElementAt(0));
 
-        Assert.True(trailingPlayersResult.Players.Count() == 2);
-        Assert.True(trailingPlayersResult.Players.ElementAt(0) == 1);
-        Assert.True(trailingPlayersResult.Players.ElementAt(1) == 3);
+        Assert.Equal(2, trailingPlayersResult.Players.Count());
+        Assert.Equal(1, trailingPlayersResult.Players.ElementAt(0));
+        Assert.Equal(3, trailingPlayersResult.Players.ElementAt(1));
     }
 
     [Fact]
-    public async Task MLS_Test()
+    public async Task MLB_Test()
     {
         // arrange
         _options.Value.Sport = "MLB";
@@ -118,16 +118,16 @@ public class ExampleTests
         var trailingPlayersResult = await _getTrailingPlayerHandler.Handle(trailingPlayerQuery, default);
 
         // assert
-        Assert.True(depthChartResult.Positions.Count() == 2);
-        Assert.True(depthChartResult.Positions.ElementAt(0).PositionId == "SP");
-        Assert.True(depthChartResult.Positions.ElementAt(0).Players.ElementAt(0) == 2);
-        Assert.True(depthChartResult.Positions.ElementAt(0).Players.ElementAt(1) == 1);
-        Assert.True(depthChartResult.Positions.ElementAt(0).Players.ElementAt(2) == 3);
-        Assert.True(depthChartResult.Positions.ElementAt(1).PositionId == "C");
-        Assert.True(depthChartResult.Positions.ElementAt(1).Players.ElementAt(0) == 1);
+        Assert.Equal(2, depthChartResult.Positions.Count());
+        Assert.Equal("SP", depthChartResult.Positions.ElementAt(0).PositionId);
+        Assert.Equal(2, depthChartResult.Positions.ElementAt(0).Players.ElementAt(0));
+        Assert.Equal(1, depthChartResult.Positions.ElementAt(0).Players.ElementAt(1));
+        Assert.Equal(3, depthChartResult.Positions.ElementAt(0).Players.ElementAt(2));
+        Assert.Equal("C", depthChartResult.Positions.ElementAt(1).PositionId);
+        Assert.Equal(1, depthChartResult.Positions.ElementAt(1).Players.ElementAt(0));
 
-        Assert.True(trailingPlayersResult.Players.Count() == 2);
-        Assert.True(trailingPlayersResult.Players.ElementAt(0) == 1);
-        Assert.True(trailingPlayersResult.Players.ElementAt(1) == 3);
+        Assert.Equal(2, trailingPlayersResult.Players.Count());
+        Assert.Equal(1, trailingPlayersResult.Players.ElementAt(0));
+        Assert.Equal(3, trailingPlayersResult.Players.ElementAt(1));
     }
 }
