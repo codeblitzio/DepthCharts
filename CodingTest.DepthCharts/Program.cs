@@ -5,6 +5,7 @@ using CodingTest.DepthCharts.Exceptions;
 using CodingTest.DepthCharts.Extensions;
 using CodingTest.DepthCharts.Messages;
 using CodingTest.DepthCharts.Models;
+using CodingTest.DepthCharts.Options;
 using CodingTest.DepthCharts.Repositories;
 using FluentValidation;
 using Hellang.Middleware.ProblemDetails;
@@ -12,7 +13,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Models = CodingTest.DepthCharts.Models;
 using Serilog;
-using CodingTest.DepthCharts.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 

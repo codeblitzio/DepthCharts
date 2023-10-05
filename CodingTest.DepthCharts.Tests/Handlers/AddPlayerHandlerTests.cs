@@ -21,9 +21,9 @@ public class AddPlayerHandlerTests
     readonly IOptions<AppOptions> _options;
     readonly IMapper _mapper;
 
-    readonly AddPlayerCommand.PlayerObj _bob = new() { PlayerId = 1, Name = "Bob", PositionId = "SP" };
-    readonly AddPlayerCommand.PlayerObj _alice = new() { PlayerId = 2, Name = "Alice", PositionId = "SP" };
-    readonly AddPlayerCommand.PlayerObj _charlie = new() { PlayerId = 3, Name = "Charlie", PositionId = "SP" };
+    readonly AddPlayerCommand.PlayerObj _bob = new() { PlayerId = 1, Name = "Bob", PositionId = "QB" };
+    readonly AddPlayerCommand.PlayerObj _alice = new() { PlayerId = 2, Name = "Alice", PositionId = "QB" };
+    readonly AddPlayerCommand.PlayerObj _charlie = new() { PlayerId = 3, Name = "Charlie", PositionId = "QB" };
 
 
     public AddPlayerHandlerTests()
