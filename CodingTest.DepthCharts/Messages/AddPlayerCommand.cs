@@ -2,7 +2,7 @@
 
 namespace CodingTest.DepthCharts.Messages;
 
-public class AddPlayerCommand : IRequest<Unit>
+public class AddPlayerCommand : IRequest
 {
     public class PlayerObj
     {

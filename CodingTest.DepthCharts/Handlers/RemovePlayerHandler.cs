@@ -7,7 +7,7 @@ using MediatR;
 
 namespace CodingTest.DepthCharts.Handlers;
 
-public class RemovePlayerHandler : IRequestHandler<RemovePlayerCommand, Unit>
+public class RemovePlayerHandler : IRequestHandler<RemovePlayerCommand>
 {
     readonly IRepository _repository;
     readonly IMapper _mapper;
@@ -23,7 +23,7 @@ public class RemovePlayerHandler : IRequestHandler<RemovePlayerCommand, Unit>
         _logger = logger;
     }
 
-    public async Task<Unit> Handle(RemovePlayerCommand command, CancellationToken cancellationToken)
+    public async Task Handle(RemovePlayerCommand command, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Handling AddPlayerCommand {@command}", command);
 
@@ -62,7 +62,7 @@ public class RemovePlayerHandler : IRequestHandler<RemovePlayerCommand, Unit>
         _logger.LogInformation("Handled RemovePlayerCommand {@command}", command);
 
         // return a void result from mediatr
-        return Unit.Value;
+        return;
     }
 }
 

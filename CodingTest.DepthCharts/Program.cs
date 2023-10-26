@@ -13,6 +13,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Models = CodingTest.DepthCharts.Models;
 using Serilog;
+using Microsoft.AspNetCore.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,7 +53,7 @@ builder.Services.AddProblemDetails(options =>
 });
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
 builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
 // configure serilog as it will provide structured logging

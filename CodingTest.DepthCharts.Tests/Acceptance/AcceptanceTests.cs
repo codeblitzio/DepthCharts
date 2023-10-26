@@ -9,9 +9,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 
-namespace CodingTest.DepthCharts.Tests;
+namespace CodingTest.DepthCharts.Tests.Acceptance;
 
-public class ExampleTests
+public class AcceptanceTests
 {
     readonly IRepository _repository;
     readonly IOptions<AppOptions> _options;
@@ -20,7 +20,7 @@ public class ExampleTests
     readonly GetDepthChartHandler _getDepthChartHandler;
     readonly GetTrailingPlayersHandler _getTrailingPlayerHandler;
 
-    public ExampleTests()
+    public AcceptanceTests()
     {
         // create a concrete options
         _options = Microsoft.Extensions.Options.Options.Create(new AppOptions());
