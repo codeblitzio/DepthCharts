@@ -2,6 +2,6 @@
 
 namespace CodingTest.DepthCharts.Messages;
 
-public class GetDepthChartQuery : IRequest<GetDepthChartResponse>
+public class GetDepthChartQuery : IRequest<GetDepthChartResult>
 {
 }

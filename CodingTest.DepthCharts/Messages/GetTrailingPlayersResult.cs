@@ -1,6 +1,6 @@
 ﻿namespace CodingTest.DepthCharts.Messages;
 
-public class GetTrailingPlayersResponse
+public class GetTrailingPlayersResult
 {
     public IEnumerable<int> Players { get; set; }
 }

@@ -5,7 +5,7 @@ using MediatR;
 
 namespace CodingTest.DepthCharts.Handlers;
 
-public class GetDepthChartHandler : IRequestHandler<GetDepthChartQuery, GetDepthChartResponse>
+public class GetDepthChartHandler : IRequestHandler<GetDepthChartQuery, GetDepthChartResult>
 {
     readonly IRepository _repository;
     readonly IMapper _mapper;
@@ -18,24 +18,24 @@ public class GetDepthChartHandler : IRequestHandler<GetDepthChartQuery, GetDepth
         _logger = logger;
     }
 
-    public async Task<GetDepthChartResponse> Handle(GetDepthChartQuery query, CancellationToken cancellationToken)
+    public async Task<GetDepthChartResult> Handle(GetDepthChartQuery query, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Handling GetFullDepthChartQuery {@query}", query);
 
-        var positions = new List<GetDepthChartResponse.Position>();
+        var positions = new List<GetDepthChartResult.Position>();
 
         var entityPositions = await _repository.GetPositionsAsync(cancellationToken);
 
         foreach(var entityPosition in entityPositions)
         {
-            positions.Add(new GetDepthChartResponse.Position
+            positions.Add(new GetDepthChartResult.Position
             {
                 PositionId = entityPosition.PositionId,
                 Players = entityPosition.Players.Select(p => p.PlayerId)
             });
         }
 
-        var result = new GetDepthChartResponse
+        var result = new GetDepthChartResult
         {
             Positions = positions.Where(p => p.Players.Any())
         };

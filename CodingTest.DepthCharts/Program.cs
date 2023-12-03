@@ -11,9 +11,7 @@ using FluentValidation;
 using Hellang.Middleware.ProblemDetails;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Models = CodingTest.DepthCharts.Models;
 using Serilog;
-using Microsoft.AspNetCore.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -84,13 +82,13 @@ app.MapControllers();
 app.MapGet("/GetDepthChart", async (IMapper mapper, IMediator mediator, ILogger<Program> logger, CancellationToken cancellationToken) =>
 {
     var result = await mediator.Send(new GetDepthChartQuery(), cancellationToken);
-    return Results.Ok(mapper.Map<Models.GetDepthChartResponse>(result));
+    return Results.Ok(mapper.Map<GetDepthChartResponse>(result));
 });
 
 app.MapGet("/GetTrailingPlayers", async (IMapper mapper, IMediator mediator, ILogger<Program> logger, int playerId, string positionId, CancellationToken cancellationToken) =>
 {
     var result = await mediator.Send(new GetTrailingPlayersQuery { PlayerId = playerId, PositionId = positionId }, cancellationToken);
-    return Results.Ok(mapper.Map<Models.GetTrailingPlayersResponse>(result));
+    return Results.Ok(mapper.Map<GetTrailingPlayersResponse>(result));
 });
 
 app.MapPost("/AddPlayer", async (IMapper mapper, IMediator mediator, ILogger<Program> logger, AddPlayerRequest request, CancellationToken cancellationToken) =>

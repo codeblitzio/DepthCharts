@@ -1,6 +1,6 @@
 ﻿namespace CodingTest.DepthCharts.Messages;
 
-public class GetDepthChartResponse
+public class GetDepthChartResult
 {
     public class Position
     {

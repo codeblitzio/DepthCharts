@@ -7,7 +7,7 @@ using MediatR;
 
 namespace CodingTest.DepthCharts.Handlers;
 
-public class GetTrailingPlayersHandler : IRequestHandler<GetTrailingPlayersQuery, GetTrailingPlayersResponse>
+public class GetTrailingPlayersHandler : IRequestHandler<GetTrailingPlayersQuery, GetTrailingPlayersResult>
 {
     readonly IRepository _repository;
     readonly IMapper _mapper;
@@ -23,7 +23,7 @@ public class GetTrailingPlayersHandler : IRequestHandler<GetTrailingPlayersQuery
         _logger = logger;
     }
 
-    public async Task<GetTrailingPlayersResponse> Handle(GetTrailingPlayersQuery query, CancellationToken cancellationToken)
+    public async Task<GetTrailingPlayersResult> Handle(GetTrailingPlayersQuery query, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Handling GetTrailingDepthChartQuery {@query}", query);
 
@@ -53,7 +53,7 @@ public class GetTrailingPlayersHandler : IRequestHandler<GetTrailingPlayersQuery
 
         players.RemoveRange(0, index + 1);
 
-        var result = new GetTrailingPlayersResponse
+        var result = new GetTrailingPlayersResult
         {
             Players = players.Select(p => p.PlayerId)
         };

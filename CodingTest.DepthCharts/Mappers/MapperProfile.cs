@@ -12,9 +12,9 @@ public class MapperProfile : Profile
         CreateMap<Models.GetTrailingPlayersRequest, Messages.GetTrailingPlayersQuery>();
 
         // messages to models
-        CreateMap<Messages.GetDepthChartResponse, Models.GetDepthChartResponse>();
-        CreateMap<Messages.GetDepthChartResponse.Position, Models.GetDepthChartResponse.Position>();
-        CreateMap<Messages.GetTrailingPlayersResponse, Models.GetTrailingPlayersResponse>();
+        CreateMap<Messages.GetDepthChartResult, Models.GetDepthChartResponse>();
+        CreateMap<Messages.GetDepthChartResult.Position, Models.GetDepthChartResponse.Position>();
+        CreateMap<Messages.GetTrailingPlayersResult, Models.GetTrailingPlayersResponse>();
 
         // messages to entities
         CreateMap<Messages.AddPlayerCommand.PlayerObj, Entities.Player>();
