@@ -1,5 +1,5 @@
 ## Architecture
-The solution is build using .NET 6 (LTS) and is hosted as a Web API. It implements a CQRS pattern using Mediatr. The API uses minimal endpoints that delegate requests to a Mediatr handler to perform the heavy lifting. A repository layer has also been included to provide data access; for this demo, a mocked in-memory repository has been used. Dependency injection is used throughout.
+The solution is build using .NET 8 (LTS) and is hosted as a Web API. It implements a CQRS pattern using Mediatr. The API uses minimal endpoints that delegate requests to a Mediatr handler to perform the heavy lifting. A repository layer has also been included to provide data access; for this demo, a mocked in-memory repository has been used. Dependency injection is used throughout.
 
 ## Use cases
 The use cases specified in the Instructions.md have been implemented as API endpoints. The names and signatures have been tweaked.
